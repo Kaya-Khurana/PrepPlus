@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
+
+@theme {
+  --color-primary-50: #f0f4ff;
+  --color-primary-100: #e0e9fe;
+  --color-primary-200: #c1d3fe;
+  --color-primary-300: #92b3fd;
+  --color-primary-400: #5c8afb;
+  --color-primary-500: #3b82f6; --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
+  --color-primary-800: #1e40af;
+  --color-primary-900: #1e3a8a;
+  
+  --color-accent-light: #ecfdf5;
+  --color-accent-main: #10b981;
+  --color-accent-dark: #065f46;
+
+  --font-sans: "Inter", "Poppins", ui-sans-serif, system-ui, sans-serif;
+}
+
+@utility glass {
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+
+@utility glass-dark {
+  background-color: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(51, 65, 85, 0.3);
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+
+@utility btn-primary {
+  padding: 0.625rem 1.5rem;
+  background-color: var(--color-primary-600);
+  color: white;
+  border-radius: 0.75rem;
+  font-weight: 500;
+  transition: all 0.2s;
+  
+  &:hover {
+    background-color: var(--color-primary-700);
+  }
+  
+  &:active {
+    transform: scale(0.95);
+  }
+  
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
+@utility card {
+  padding: 1.5rem;
+  border-radius: 1rem;
+  background-color: white;
+  border: 1px solid var(--color-slate-100);
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  transition: box-shadow 0.2s;
+  
+  &:hover {
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  }
+}
+
+body {
+  background-color: var(--color-slate-50);
+  color: var(--color-slate-900);
+  font-family: var(--font-sans);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-slate-200);
+  border-radius: 9999px;
+  
+  &:hover {
+    background-color: var(--color-slate-300);
+  }
+}

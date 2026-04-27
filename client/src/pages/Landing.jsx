@@ -6,22 +6,22 @@ const Landing = () => {
     return (
         <div className="flex flex-col min-h-screen">
             {/* Navbar */}
-            <nav className="p-6 flex justify-between items-center max-w-7xl mx-auto w-full">
+            <nav className="p-4 md:p-6 flex justify-between items-center max-w-7xl mx-auto w-full">
                 <div className="flex items-center gap-2">
-                    <div className="w-10 h-10 bg-primary-600 rounded-xl flex items-center justify-center text-white font-bold shadow-lg shadow-primary-200">
+                    <div className="w-9 h-9 md:w-10 md:h-10 bg-primary-600 rounded-xl flex items-center justify-center text-white font-bold shadow-lg shadow-primary-200 shrink-0">
                         P+
                     </div>
-                    <span className="text-2xl font-bold tracking-tight">PrepPlus</span>
+                    <span className="text-xl md:text-2xl font-bold tracking-tight hidden sm:block">PrepPlus</span>
                 </div>
-                <div className="flex gap-4">
-                    <Link to="/login" className="px-5 py-2 font-medium hover:text-primary-600 transition-colors">Login</Link>
-                    <Link to="/register" className="btn-primary">Get Started</Link>
+                <div className="flex items-center gap-2 md:gap-4">
+                    <Link to="/login" className="px-3 md:px-5 py-2 font-medium text-sm md:text-base hover:text-primary-600 transition-colors">Login</Link>
+                    <Link to="/register" className="btn-primary text-sm md:text-base px-4 md:px-6 py-2 md:py-2.5">Get Started</Link>
                 </div>
             </nav>
 
             {/* Hero Section */}
             <section className="flex-1 flex flex-col items-center justify-center text-center px-4 py-20 bg-gradient-to-b from-white to-primary-50/30">
-                <motion.div 
+                <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
@@ -41,25 +41,23 @@ const Landing = () => {
                         <Link to="/register" className="btn-primary text-lg px-8 py-4 flex items-center gap-2">
                             Start Planning for Free <ChevronRight size={20} />
                         </Link>
-                        <button className="px-8 py-4 rounded-xl border border-slate-200 font-medium hover:bg-white transition-all">
-                            How it works
-                        </button>
+
                     </div>
                 </motion.div>
 
                 {/* Feature Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto mt-32 px-6">
-                    <FeatureCard 
+                    <FeatureCard
                         icon={<Target className="text-indigo-600" />}
                         title="AI Timetables"
                         desc="Generate customized weekly plans based on your subjects, deadlines, and available hours."
                     />
-                    <FeatureCard 
+                    <FeatureCard
                         icon={<Clock className="text-orange-600" />}
                         title="Pomodoro Engine"
                         desc="Deep work sessions with automated break tracking to maximize your productivity."
                     />
-                    <FeatureCard 
+                    <FeatureCard
                         icon={<BookOpen className="text-emerald-600" />}
                         title="Progress Analytics"
                         desc="Visualize your study streaks and subject completion with beautiful, interactive charts."

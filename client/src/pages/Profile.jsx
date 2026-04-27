@@ -5,7 +5,7 @@ import { User, Mail, Target, Clock, Shield, Bell, Moon, LogOut } from 'lucide-re
 const Profile = () => {
     const user = JSON.parse(localStorage.getItem('user'));
     const [settings, setSettings] = useState({
-        goal: user?.goal || 'Study Mastery',
+        goal: user?.goal || 'No goal set',
         hours: user?.preferredStudyHours || 4,
         darkMode: false,
         notifications: true
@@ -33,15 +33,15 @@ const Profile = () => {
                     </div>
                     <div className="pt-6 border-t border-slate-50 flex justify-between px-4">
                         <div className="text-center">
-                            <p className="text-2xl font-black">12</p>
+                            <p className="text-2xl font-black">{user?.level || 1}</p>
                             <p className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Level</p>
                         </div>
                         <div className="text-center">
-                            <p className="text-2xl font-black">2.4k</p>
+                            <p className="text-2xl font-black">{user?.points || 0}</p>
                             <p className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Points</p>
                         </div>
                         <div className="text-center">
-                            <p className="text-2xl font-black">8.5</p>
+                            <p className="text-2xl font-black">{user?.gpa || '0.0'}</p>
                             <p className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">GPA</p>
                         </div>
                     </div>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../services/api';
 import { motion } from 'framer-motion';
 import { Lock, ShieldCheck, ArrowRight } from 'lucide-react';
 
@@ -19,7 +19,7 @@ const ResetPassword = () => {
         setError('');
         setLoading(true);
         try {
-            await axios.put(`http://localhost:5000/api/auth/reset-password/${token}`, { password });
+            await api.put(`/auth/reset-password/${token}`, { password });
             alert('Password reset successful! You can now log in.');
             navigate('/login');
         } catch (err) {

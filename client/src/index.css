@@ -18,6 +18,8 @@
   --color-accent-dark: #065f46;
 
   --font-sans: "Inter", "Poppins", ui-sans-serif, system-ui, sans-serif;
+
+  --breakpoint-xs: 475px;
 }
 
 @utility glass {

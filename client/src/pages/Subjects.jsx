@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../services/api';
 import { Plus, Trash2, BookOpen, Calendar, Tag, ChevronRight, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -14,10 +14,9 @@ const Subjects = () => {
 
     const fetchSubjects = async () => {
         try {
-            const token = localStorage.getItem('token');
             const [subsRes, tasksRes] = await Promise.all([
-                axios.get('http://localhost:5000/api/subjects', { headers: { Authorization: `Bearer ${token}` } }),
-                axios.get('http://localhost:5000/api/tasks', { headers: { Authorization: `Bearer ${token}` } })
+                api.get('/subjects'),
+                api.get('/tasks')
             ]);
             setSubjects(subsRes.data);
             setTasks(tasksRes.data);
@@ -33,15 +32,10 @@ const Subjects = () => {
     const handleAdd = async (e) => {
         e.preventDefault();
         try {
-            const token = localStorage.getItem('token');
             if (editMode) {
-                await axios.put(`http://localhost:5000/api/subjects/${currentId}`, newSubject, {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
+                await api.put(`/subjects/${currentId}`, newSubject);
             } else {
-                await axios.post('http://localhost:5000/api/subjects', newSubject, {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
+                await api.post('/subjects', newSubject);
             }
             setShowModal(false);
             setEditMode(false);
@@ -67,10 +61,7 @@ const Subjects = () => {
     const handleDelete = async (id) => {
         if (!confirm('Are you sure? This will remove all associated data.')) return;
         try {
-            const token = localStorage.getItem('token');
-            await axios.delete(`http://localhost:5000/api/subjects/${id}`, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
+            await api.delete(`/subjects/${id}`);
             fetchSubjects();
         } catch (err) {
             alert('Failed to delete subject');

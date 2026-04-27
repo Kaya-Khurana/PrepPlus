@@ -44,14 +44,27 @@ function App() {
     setUser(null);
   };
 
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+
   return (
     <Router>
       <div className="min-h-screen bg-slate-50 flex flex-col">
         {isAuthenticated ? (
-          <div className="flex flex-1">
-            <Sidebar logout={logout} />
+          <div className="flex flex-1 relative">
+            <Sidebar logout={logout} isOpen={isSidebarOpen} toggle={toggleSidebar} />
+            
+            {/* Overlay for mobile sidebar */}
+            {isSidebarOpen && (
+              <div 
+                className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 md:hidden"
+                onClick={toggleSidebar}
+              />
+            )}
+
             <div className="flex-1 flex flex-col h-screen overflow-hidden">
-              <Navbar />
+              <Navbar toggleSidebar={toggleSidebar} />
               <main className="flex-1 p-4 md:p-8 overflow-y-auto">
                 <Routes>
                 <Route path="/dashboard" element={<Dashboard />} />

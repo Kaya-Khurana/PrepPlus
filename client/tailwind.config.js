@@ -28,6 +28,9 @@ export default {
       fontFamily: {
         sans: ['Inter', 'Poppins', 'sans-serif'],
       },
+      screens: {
+        'xs': '475px',
+      },
       backdropBlur: {
         xs: '2px',
       }

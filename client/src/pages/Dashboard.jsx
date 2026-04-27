@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../services/api';
 import { motion } from 'framer-motion';
 import { 
     Clock, 
@@ -31,10 +31,9 @@ const Dashboard = () => {
 
     const fetchDashboardData = async () => {
         try {
-            const token = localStorage.getItem('token');
             const [statsRes, tasksRes] = await Promise.all([
-                axios.get('http://localhost:5000/api/tasks/stats/summary', { headers: { Authorization: `Bearer ${token}` } }),
-                axios.get('http://localhost:5000/api/tasks', { headers: { Authorization: `Bearer ${token}` } })
+                api.get('/tasks/stats/summary'),
+                api.get('/tasks')
             ]);
             setStats(statsRes.data);
             setRecentTasks(tasksRes.data.slice(0, 4));
@@ -48,24 +47,24 @@ const Dashboard = () => {
     }, []);
 
     const data = [
-        { name: 'Mon', hours: stats.studyHours / 7 },
-        { name: 'Tue', hours: stats.studyHours / 5 },
-        { name: 'Wed', hours: 5 },
-        { name: 'Thu', hours: 4 },
-        { name: 'Fri', hours: stats.studyHours / 3 },
-        { name: 'Sat', hours: 2 },
-        { name: 'Sun', hours: 4 },
+        { name: 'Mon', hours: stats.studyHours > 0 ? (stats.studyHours * 0.1).toFixed(1) : 0 },
+        { name: 'Tue', hours: stats.studyHours > 0 ? (stats.studyHours * 0.15).toFixed(1) : 0 },
+        { name: 'Wed', hours: stats.studyHours > 0 ? (stats.studyHours * 0.25).toFixed(1) : 0 },
+        { name: 'Thu', hours: stats.studyHours > 0 ? (stats.studyHours * 0.2).toFixed(1) : 0 },
+        { name: 'Fri', hours: stats.studyHours > 0 ? (stats.studyHours * 0.1).toFixed(1) : 0 },
+        { name: 'Sat', hours: stats.studyHours > 0 ? (stats.studyHours * 0.1).toFixed(1) : 0 },
+        { name: 'Sun', hours: stats.studyHours > 0 ? (stats.studyHours * 0.1).toFixed(1) : 0 },
     ];
 
     return (
         <div className="space-y-8 animate-in fade-in duration-500">
             {/* Header */}
-            <header className="flex justify-between items-center">
+            <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold">Good morning, {user?.name?.split(' ')[0] || 'Student'}! 👋</h1>
+                    <h1 className="text-2xl md:text-3xl font-bold">Good morning, {user?.name?.split(' ')[0] || 'Student'}! 👋</h1>
                     <p className="text-slate-500 mt-1">Here's your study overview for today.</p>
                 </div>
-                <button className="btn-primary flex items-center gap-2 shadow-xl shadow-primary-200">
+                <button className="w-full sm:w-auto btn-primary flex items-center justify-center gap-2 shadow-xl shadow-primary-200">
                     <Plus size={20} /> Add Task
                 </button>
             </header>
@@ -117,10 +116,20 @@ const Dashboard = () => {
                     </div>
                     
                     <div className="space-y-4">
-                        <TaskItem title="Complete React Notes" subject="MERN Stack" time="10:00 AM" />
-                        <TaskItem title="Prepare for DBMS Viva" subject="DBMS" time="02:00 PM" />
-                        <TaskItem title="Aptitude Mock Test" subject="Aptitude" time="05:30 PM" />
-                        <TaskItem title="DSA Revision" subject="Java" time="08:00 PM" />
+                        {recentTasks.length > 0 ? (
+                            recentTasks.map((task) => (
+                                <TaskItem 
+                                    key={task._id}
+                                    title={task.title} 
+                                    subject={task.subjectId?.name || 'Unassigned'} 
+                                    time={new Date(task.deadline).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} 
+                                />
+                            ))
+                        ) : (
+                            <div className="py-10 text-center border-2 border-dashed border-slate-50 rounded-2xl">
+                                <p className="text-slate-400 text-sm">No tasks for today.</p>
+                            </div>
+                        )}
                     </div>
 
                     <div className="pt-4 border-t border-slate-50">

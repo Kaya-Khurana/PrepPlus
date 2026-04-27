@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../services/api';
 import { motion } from 'framer-motion';
 import { Mail, ArrowLeft, Send } from 'lucide-react';
 
@@ -17,7 +17,7 @@ const ForgotPassword = () => {
         setMessage('');
         setLoading(true);
         try {
-            const res = await axios.post('http://localhost:5000/api/auth/forgot-password', { email });
+            const res = await api.post('/auth/forgot-password', { email });
             setMessage(`Instruction sent to ${email}. Check your inbox!`);
             if (res.data.previewUrl) {
                 setPreviewUrl(res.data.previewUrl);

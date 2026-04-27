@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../services/api';
 import { motion } from 'framer-motion';
 import { Mail, Lock, User, ArrowRight } from 'lucide-react';
 
@@ -17,7 +17,7 @@ const Register = ({ login }) => {
 
         setLoading(true);
         try {
-            const res = await axios.post('http://localhost:5000/api/auth/register', {
+            const res = await api.post('/auth/register', {
                 name: formData.name,
                 email: formData.email,
                 password: formData.password
@@ -33,7 +33,7 @@ const Register = ({ login }) => {
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-slate-50 p-4">
-            <motion.div 
+            <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 className="w-full max-w-md bg-white rounded-3xl shadow-2xl shadow-slate-200/50 p-8 border border-white"
@@ -51,12 +51,12 @@ const Register = ({ login }) => {
                         <label className="text-sm font-semibold ml-1">Full Name</label>
                         <div className="relative">
                             <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                            <input 
+                            <input
                                 type="text"
                                 required
                                 className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition-all"
-                                placeholder="John Doe"
-                                onChange={(e) => setFormData({...formData, name: e.target.value})}
+                                placeholder="Enter your full name"
+                                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                             />
                         </div>
                     </div>
@@ -65,12 +65,12 @@ const Register = ({ login }) => {
                         <label className="text-sm font-semibold ml-1">Email Address</label>
                         <div className="relative">
                             <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                            <input 
+                            <input
                                 type="email"
                                 required
                                 className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition-all"
-                                placeholder="name@company.com"
-                                onChange={(e) => setFormData({...formData, email: e.target.value})}
+                                placeholder="Enter Your Email"
+                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                             />
                         </div>
                     </div>
@@ -79,13 +79,13 @@ const Register = ({ login }) => {
                         <label className="text-sm font-semibold ml-1">Password</label>
                         <div className="relative">
                             <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                            <input 
+                            <input
                                 type="password"
                                 required
                                 minLength={8}
                                 className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition-all"
                                 placeholder="••••••••"
-                                onChange={(e) => setFormData({...formData, password: e.target.value})}
+                                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                             />
                         </div>
                     </div>
@@ -94,18 +94,18 @@ const Register = ({ login }) => {
                         <label className="text-sm font-semibold ml-1">Confirm Password</label>
                         <div className="relative">
                             <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                            <input 
+                            <input
                                 type="password"
                                 required
                                 className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition-all"
                                 placeholder="••••••••"
-                                onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
+                                onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
                             />
                         </div>
                     </div>
 
-                    <button 
-                        type="submit" 
+                    <button
+                        type="submit"
                         disabled={loading}
                         className="w-full py-4 bg-primary-600 text-white rounded-xl font-bold text-lg hover:bg-primary-700 transition-all flex items-center justify-center gap-2 group shadow-xl shadow-primary-200"
                     >

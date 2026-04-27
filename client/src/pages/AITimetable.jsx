@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axios from 'axios';
+import api from '../services/api';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Zap, Sparkles, Clock, Calendar, CheckCircle, AlertCircle, Loader2, ChevronRight } from 'lucide-react';
 
@@ -14,12 +14,9 @@ const AITimetable = () => {
     const generatePlan = async () => {
         setLoading(true);
         try {
-            const token = localStorage.getItem('token');
-            const res = await axios.post('http://localhost:5000/api/ai/generate', {
+            const res = await api.post('/ai/generate', {
                 availableHours: config.hours,
                 preferredTime: config.time
-            }, {
-                headers: { Authorization: `Bearer ${token}` }
             });
             setPlan(res.data.timetable);
         } catch (err) {
@@ -32,20 +29,20 @@ const AITimetable = () => {
 
     return (
         <div className="max-w-6xl mx-auto space-y-8 animate-in slide-in-from-bottom duration-500">
-            <header className="text-center space-y-4 max-w-2xl mx-auto py-10">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-100 text-primary-700 font-bold text-sm">
+            <header className="text-center space-y-4 max-w-2xl mx-auto py-6 md:py-10">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-100 text-primary-700 font-bold text-xs md:text-sm">
                     <Sparkles size={16} className="fill-current" />
                     Powered by Gemini AI
                 </div>
-                <h1 className="text-4xl font-black tracking-tight">AI Study Planner</h1>
-                <p className="text-slate-500 text-lg">
+                <h1 className="text-3xl md:text-4xl font-black tracking-tight px-4">AI Study Planner</h1>
+                <p className="text-slate-500 text-base md:text-lg px-4">
                     Generate a scientifically optimized study schedule based on your subjects, difficulty levels, and energy cycles.
                 </p>
             </header>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
                 {/* Configuration */}
-                <div className="card h-fit sticky top-8">
+                <div className="card h-fit md:sticky md:top-8 order-2 md:order-1">
                     <h3 className="text-xl font-bold mb-6">Plan Parameters</h3>
                     
                     <div className="space-y-6">
@@ -177,8 +174,8 @@ const AITimetable = () => {
                                             </div>
                                             <div className="p-4 space-y-3">
                                                 {Array.isArray(sessions) ? sessions.map((s, i) => (
-                                                    <div key={i} className="flex gap-4 p-3 rounded-xl hover:bg-slate-50 transition-colors">
-                                                        <div className="text-xs font-bold text-slate-400 w-20 pt-1 shrink-0">{s.time}</div>
+                                                    <div key={i} className="flex flex-col sm:flex-row gap-2 sm:gap-4 p-3 rounded-xl hover:bg-slate-50 transition-colors">
+                                                        <div className="text-xs font-bold text-slate-400 xs:w-20 pt-1 shrink-0">{s.time}</div>
                                                         <div>
                                                             <div className="font-bold text-primary-600">{s.subject}</div>
                                                             <div className="text-sm text-slate-500">{s.task || 'General Study Session'}</div>

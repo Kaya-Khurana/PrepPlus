@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../services/api';
 import { Plus, CheckCircle2, Clock, AlertTriangle, Filter, MoreVertical, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -19,10 +19,9 @@ const Tasks = () => {
 
     const fetchData = async () => {
         try {
-            const token = localStorage.getItem('token');
             const [tasksRes, subsRes] = await Promise.all([
-                axios.get('http://localhost:5000/api/tasks', { headers: { Authorization: `Bearer ${token}` } }),
-                axios.get('http://localhost:5000/api/subjects', { headers: { Authorization: `Bearer ${token}` } })
+                api.get('/tasks'),
+                api.get('/subjects')
             ]);
             setTasks(tasksRes.data);
             setSubjects(subsRes.data);
@@ -39,10 +38,7 @@ const Tasks = () => {
     const handleAdd = async (e) => {
         e.preventDefault();
         try {
-            const token = localStorage.getItem('token');
-            await axios.post('http://localhost:5000/api/tasks', newTask, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
+            await api.post('/tasks', newTask);
             setShowModal(false);
             fetchData();
         } catch (err) {
@@ -53,10 +49,7 @@ const Tasks = () => {
     const toggleStatus = async (id, currentStatus) => {
         const nextStatus = currentStatus === 'completed' ? 'pending' : 'completed';
         try {
-            const token = localStorage.getItem('token');
-            await axios.patch(`http://localhost:5000/api/tasks/${id}`, { status: nextStatus }, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
+            await api.patch(`/tasks/${id}`, { status: nextStatus });
             fetchData();
         } catch (err) {
             alert('Failed to update task');

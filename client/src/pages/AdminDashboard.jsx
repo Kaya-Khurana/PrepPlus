@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../services/api';
 import { Users, BookOpen, CheckSquare, ShieldCheck, Search, MoreVertical, Trash2, ArrowLeft, Calendar, Clock, CheckCircle2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -13,10 +13,9 @@ const AdminDashboard = () => {
 
     const fetchData = async () => {
         try {
-            const token = localStorage.getItem('token');
             const [usersRes, statsRes] = await Promise.all([
-                axios.get('http://localhost:5000/api/admin/users', { headers: { Authorization: `Bearer ${token}` } }),
-                axios.get('http://localhost:5000/api/admin/stats', { headers: { Authorization: `Bearer ${token}` } })
+                api.get('/admin/users'),
+                api.get('/admin/stats')
             ]);
             setUsers(usersRes.data);
             setStats(statsRes.data);
@@ -35,10 +34,7 @@ const AdminDashboard = () => {
         setDetailLoading(true);
         setSelectedUser(user);
         try {
-            const token = localStorage.getItem('token');
-            const res = await axios.get(`http://localhost:5000/api/admin/users/${user._id}/details`, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
+            const res = await api.get(`/admin/users/${user._id}/details`);
             setUserDetails(res.data);
         } catch (err) {
             console.error(err);
